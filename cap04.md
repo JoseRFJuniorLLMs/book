@@ -13,12 +13,13 @@ A cognição não é plana. Todo sistema que pretende modelar pensamento hierár
 
 O NietzscheDB resolve isso através de quatro *variedades riemannianas* (e uma pseudo-riemanniana), cada uma otimizada para uma dimensão cognitiva específica:
 
-| Variedade | Curvatura $K$ | Dimensão Cognitiva | Armazenamento |
-|---|---|---|---|
-| Bola de Poincaré $\mathbb{B}^n$ | $K < 0$ | Hierarquia | Primário (HNSW) |
-| Disco de Klein $\mathbb{K}^n$ | $K < 0$ | Raciocínio Lógico | Projeção sob demanda |
-| Esfera de Riemann $\mathbb{S}^n$ | $K > 0$ | Síntese | Projeção sob demanda |
-| Espaço-tempo de Minkowski $\mathbb{M}^{3,1}$ | $K = 0$ (pseudo) | Causalidade | Integração temporal |
+
+| Variedade                                    | Curvatura$K$     | Dimensão Cognitiva | Armazenamento          |
+| -------------------------------------------- | ---------------- | ------------------- | ---------------------- |
+| Bola de Poincaré$\mathbb{B}^n$              | $K < 0$          | Hierarquia          | Primário (HNSW)       |
+| Disco de Klein$\mathbb{K}^n$                 | $K < 0$          | Raciocínio Lógico | Projeção sob demanda |
+| Esfera de Riemann$\mathbb{S}^n$              | $K > 0$          | Síntese            | Projeção sob demanda |
+| Espaço-tempo de Minkowski$\mathbb{M}^{3,1}$ | $K = 0$ (pseudo) | Causalidade         | Integração temporal  |
 
 **Na Prática:** Nenhum banco de dados vetorial existente opera em múltiplas geometrias. O Milvus e o Qdrant suportam múltiplas métricas de distância (L2, cosseno, produto interno), mas todas são euclidianas. O Weaviate oferece HNSW plano sem consciência de curvatura. O Neo4j armazena topologia de grafos mas todas as operações vetoriais são euclidianas. O NietzscheDB é, até onde sabemos, o primeiro banco de dados em produção a realizar operações de busca nativamente em espaços hiperbólico, esférico e de Minkowski.
 
@@ -38,21 +39,29 @@ Seja $\mathbb{B}^n_c = \{x \in \mathbb{R}^n : c\|x\|^2 < 1\}$ a bola aberta de r
 
 O tensor métrico de Poincaré é definido por:
 
-$$g_{ij}^{\mathbb{B}}(x) = \left(\lambda_x^c\right)^2 \delta_{ij}$$
+$$
+g_{ij}^{\mathbb{B}}(x) = \left(\lambda_x^c\right)^2 \delta_{ij}
+$$
 
 onde o *fator conforme* $\lambda_x^c$ é dado por:
 
-$$\lambda_x^c = \frac{2}{1 - c\|x\|^2}$$
+$$
+\lambda_x^c = \frac{2}{1 - c\|x\|^2}
+$$
 
 Portanto, em notação tensorial completa:
 
-$$ds^2_{\mathbb{B}} = \left(\frac{2}{1 - c\|x\|^2}\right)^2 \sum_{i=1}^{n} dx_i^2$$
+$$
+ds^2_{\mathbb{B}} = \left(\frac{2}{1 - c\|x\|^2}\right)^2 \sum_{i=1}^{n} dx_i^2
+$$
 
 Este é um modelo *conforme* — ângulos são preservados, mas distâncias são exponencialmente distorcidas conforme $\|x\| \to 1/\sqrt{c}$. É exatamente esta propriedade que torna a bola de Poincaré ideal para hierarquias: a "periferia" do disco possui volume exponencialmente crescente, espelhando a explosão combinatória de folhas numa árvore.
 
 **Propriedade fundamental**: O volume de uma bola geodésica de raio $r$ na geometria hiperbólica $n$-dimensional cresce como:
 
-$$\text{Vol}(B_r) \propto e^{(n-1)r}$$
+$$
+\text{Vol}(B_r) \propto e^{(n-1)r}
+$$
 
 enquanto no espaço euclidiano cresce apenas como $r^n$. Uma árvore com fator de ramificação $b$ e profundidade $d$ possui $b^d$ folhas — crescimento exponencial que a geometria hiperbólica acomoda *nativamente*, sem distorção.
 
@@ -79,11 +88,15 @@ enquanto no espaço euclidiano cresce apenas como $r^n$. Uma árvore com fator d
 
 A distância geodésica entre dois pontos $u, v \in \mathbb{B}^n_c$ é:
 
-$$d_{\mathbb{B}}^c(u, v) = \frac{1}{\sqrt{c}} \operatorname{arcosh}\!\left(1 + \frac{2c\|u - v\|^2}{(1 - c\|u\|^2)(1 - c\|v\|^2)}\right)$$
+$$
+d_{\mathbb{B}}^c(u, v) = \frac{1}{\sqrt{c}} \operatorname{arcosh}\!\left(1 + \frac{2c\|u - v\|^2}{(1 - c\|u\|^2)(1 - c\|v\|^2)}\right)
+$$
 
 Para $c = 1$:
 
-$$d_{\mathbb{B}}(u, v) = \operatorname{arcosh}\!\left(1 + \frac{2\|u - v\|^2}{(1 - \|u\|^2)(1 - \|v\|^2)}\right)$$
+$$
+d_{\mathbb{B}}(u, v) = \operatorname{arcosh}\!\left(1 + \frac{2\|u - v\|^2}{(1 - \|u\|^2)(1 - \|v\|^2)}\right)
+$$
 
 Note que quando $\|u\| \to 1$ ou $\|v\| \to 1$, os denominadores $(1 - \|u\|^2)$ e $(1 - \|v\|^2)$ tendem a zero, fazendo a distância divergir para $+\infty$. O bordo $\partial\mathbb{B}^n$ é o *horizonte ideal* — infinitamente distante de qualquer ponto interior.
 
@@ -95,7 +108,9 @@ Note que quando $\|u\| \to 1$ ou $\|v\| \to 1$, os denominadores $(1 - \|u\|^2)$
 
 A estrutura algébrica do espaço hiperbólico é dada pela *adição de Möbius*, que substitui a adição vetorial euclidiana:
 
-$$x \oplus_c y = \frac{(1 + 2c\langle x, y\rangle + c\|y\|^2)\,x + (1 - c\|x\|^2)\,y}{1 + 2c\langle x, y\rangle + c^2\|x\|^2\|y\|^2}$$
+$$
+x \oplus_c y = \frac{(1 + 2c\langle x, y\rangle + c\|y\|^2)\,x + (1 - c\|x\|^2)\,y}{1 + 2c\langle x, y\rangle + c^2\|x\|^2\|y\|^2}
+$$
 
 onde $\langle x, y\rangle = \sum_i x_i y_i$ é o produto interno euclidiano.
 
@@ -110,7 +125,9 @@ A estrutura resultante é um *girupo* (gyrogroup — estrutura algébrica simila
 
 A *subtração de Möbius* é definida como:
 
-$$x \ominus_c y = x \oplus_c (-y)$$
+$$
+x \ominus_c y = x \oplus_c (-y)
+$$
 
 ### 4.1.4 Mapas Exponencial e Logarítmico
 
@@ -120,19 +137,29 @@ O *mapa exponencial* no ponto $p \in \mathbb{B}^n_c$ transporta um vetor tangent
 
 **Na origem** ($p = 0$):
 
-$$\exp_0^c(v) = \tanh\!\left(\sqrt{c}\,\|v\|\right) \frac{v}{\sqrt{c}\,\|v\|}$$
+$$
+\exp_0^c(v) = \tanh\!\left(\sqrt{c}\,\|v\|\right) \frac{v}{\sqrt{c}\,\|v\|}
+$$
 
-$$\log_0^c(y) = \frac{1}{\sqrt{c}} \operatorname{arctanh}\!\left(\sqrt{c}\,\|y\|\right) \frac{y}{\|y\|}$$
+$$
+\log_0^c(y) = \frac{1}{\sqrt{c}} \operatorname{arctanh}\!\left(\sqrt{c}\,\|y\|\right) \frac{y}{\|y\|}
+$$
 
 **Em ponto arbitrário** $p$:
 
-$$\exp_p^c(v) = p \oplus_c \left(\tanh\!\left(\frac{\sqrt{c}\,\lambda_p^c\,\|v\|}{2}\right) \frac{v}{\sqrt{c}\,\|v\|}\right)$$
+$$
+\exp_p^c(v) = p \oplus_c \left(\tanh\!\left(\frac{\sqrt{c}\,\lambda_p^c\,\|v\|}{2}\right) \frac{v}{\sqrt{c}\,\|v\|}\right)
+$$
 
-$$\log_p^c(q) = \frac{2}{\sqrt{c}\,\lambda_p^c} \operatorname{arctanh}\!\left(\sqrt{c}\,\|{-p} \oplus_c q\|\right) \frac{{-p} \oplus_c q}{\|{-p} \oplus_c q\|}$$
+$$
+\log_p^c(q) = \frac{2}{\sqrt{c}\,\lambda_p^c} \operatorname{arctanh}\!\left(\sqrt{c}\,\|{-p} \oplus_c q\|\right) \frac{{-p} \oplus_c q}{\|{-p} \oplus_c q\|}
+$$
 
 Os mapas exponencial e logarítmico são inversos:
 
-$$\log_p^c(\exp_p^c(v)) = v, \quad \exp_p^c(\log_p^c(q)) = q$$
+$$
+\log_p^c(\exp_p^c(v)) = v, \quad \exp_p^c(\log_p^c(q)) = q
+$$
 
 No NietzscheDB, $\exp_0$ é usado para inserir embeddings (converte vetores tangentes euclidianos em pontos hiperbólicos), e $\log_0$ para exportar para algoritmos euclidianos quando necessário.
 
@@ -142,11 +169,15 @@ No NietzscheDB, $\exp_0$ é usado para inserir embeddings (converte vetores tang
 
 O *transporte paralelo* $\Gamma_{p \to q}^c : T_p\mathbb{B}^n_c \to T_q\mathbb{B}^n_c$ move um vetor tangente ao longo de uma geodésica, preservando a norma hiperbólica:
 
-$$\Gamma_{p \to q}^c(v) = \frac{\lambda_p^c}{\lambda_q^c} \, \text{gyr}[q, -p]\,v$$
+$$
+\Gamma_{p \to q}^c(v) = \frac{\lambda_p^c}{\lambda_q^c} \, \text{gyr}[q, -p]\,v
+$$
 
 onde $\text{gyr}[a,b]$ é a *giração* (gyration) — a rotação residual da não-comutatividade de Möbius:
 
-$$\text{gyr}[a,b]\,v = \ominus(a \oplus_c b) \oplus_c (a \oplus_c (b \oplus_c v))$$
+$$
+\text{gyr}[a,b]\,v = \ominus(a \oplus_c b) \oplus_c (a \oplus_c (b \oplus_c v))
+$$
 
 O transporte paralelo é essencial no ciclo de *sleep* do NietzscheDB: durante a reconsolidação noturna, nós são movidos para novas posições na bola de Poincaré (consolidação hierárquica). Os vetores tangentes associados — gradientes de emoção, valência, arousal — devem ser transportados paralelamente para manter coerência.
 
@@ -168,11 +199,15 @@ O disco de Klein $\mathbb{K}^n = \{y \in \mathbb{R}^n : \|y\| < 1\}$ é outro mo
 
 A projeção de Poincaré para Klein é dada pelo mapa bijetor:
 
-$$K : \mathbb{B}^n \to \mathbb{K}^n, \quad K(x) = \frac{2x}{1 + \|x\|^2}$$
+$$
+K : \mathbb{B}^n \to \mathbb{K}^n, \quad K(x) = \frac{2x}{1 + \|x\|^2}
+$$
 
 com inversa:
 
-$$P : \mathbb{K}^n \to \mathbb{B}^n, \quad P(y) = \frac{y}{1 + \sqrt{1 - \|y\|^2}}$$
+$$
+P : \mathbb{K}^n \to \mathbb{B}^n, \quad P(y) = \frac{y}{1 + \sqrt{1 - \|y\|^2}}
+$$
 
 **Verificação**: Para $x \in \mathbb{B}^n$ com $\|x\| < 1$, temos $\|K(x)\| = \frac{2\|x\|}{1 + \|x\|^2}$. Pela desigualdade AM-GM, $1 + \|x\|^2 \geq 2\|x\|$, logo $\|K(x)\| \leq 1$, com igualdade apenas no bordo.
 
@@ -182,7 +217,7 @@ $$P : \mathbb{K}^n \to \mathbb{B}^n, \quad P(y) = \frac{y}{1 + \sqrt{1 - \|y\|^2
     │    ╱   ╲     │                     │   /     \    │
     │   ╱     ╲    │    K(x) = 2x/(1+||x||²)    │  /       \   │
     │  ╱  ·    ╲   │  ──────────────────►│ /    ·    \  │
-    │  ╲  (arco) ╱  │                     │ \  (reta)  / │
+    │  ╲  (arco) ╱ │                     │ \  (reta)  / │
     │   ╲     ╱    │    P(y) = y/(1+√(1-||y||²))    │  \       /   │
     │    ╲   ╱     │  ◄──────────────────│   \     /    │
     └──────────────┘                     └──────────────┘
@@ -196,13 +231,17 @@ $$P : \mathbb{K}^n \to \mathbb{B}^n, \quad P(y) = \frac{y}{1 + \sqrt{1 - \|y\|^2
 
 O modelo de Klein *não* é conforme — ângulos não são preservados. A distância é dada pela *métrica de Cayley-Klein*:
 
-$$d_K(u, v) = \operatorname{arcosh}\!\left(\frac{1 - \langle u, v \rangle}{\sqrt{(1 - \|u\|^2)(1 - \|v\|^2)}}\right)$$
+$$
+d_K(u, v) = \operatorname{arcosh}\!\left(\frac{1 - \langle u, v \rangle}{\sqrt{(1 - \|u\|^2)(1 - \|v\|^2)}}\right)
+$$
 
 Equivalentemente, usando as coordenadas de Klein, pode-se expressar via a forma quadrática de Lorentz no modelo do hiperboloide, mas a fórmula acima é suficiente para implementação direta.
 
 O tensor métrico de Klein é:
 
-$$g_{ij}^K(y) = \frac{\delta_{ij}}{1 - \|y\|^2} + \frac{y_i y_j}{(1 - \|y\|^2)^2}$$
+$$
+g_{ij}^K(y) = \frac{\delta_{ij}}{1 - \|y\|^2} + \frac{y_i y_j}{(1 - \|y\|^2)^2}
+$$
 
 ### 4.2.3 A Propriedade-Chave: Geodésicas Retilíneas
 
@@ -210,7 +249,9 @@ No modelo de Klein, geodésicas são *segmentos de reta euclidianos* contidos no
 
 **Teste de colinearidade em $O(1)$**: Dados três pontos $a, b, c \in \mathbb{K}^n$, verificar se estão sobre uma mesma geodésica (i.e., se formam uma cadeia lógica direta) reduz-se a verificar colinearidade euclidiana:
 
-$$\text{colinear}(a, b, c) \iff \text{rank}\begin{pmatrix} b - a \\ c - a \end{pmatrix} = 1$$
+$$
+\text{colinear}(a, b, c) \iff \text{rank}\begin{pmatrix} b - a \\ c - a \end{pmatrix} = 1
+$$
 
 Na bola de Poincaré, geodésicas são arcos de círculo, e este teste exigiria computar centros e raios de círculos ortogonais ao bordo — $O(n^2)$ no mínimo.
 
@@ -218,7 +259,9 @@ Na bola de Poincaré, geodésicas são arcos de círculo, e este teste exigiria 
 
 O algoritmo completo:
 
-$$\text{VerificaCadeia}(x_1, \ldots, x_m) = \bigwedge_{i=1}^{m-2} \text{colinear}(K(x_i), K(x_{i+1}), K(x_{i+2}))$$
+$$
+\text{VerificaCadeia}(x_1, \ldots, x_m) = \bigwedge_{i=1}^{m-2} \text{colinear}(K(x_i), K(x_{i+1}), K(x_{i+2}))
+$$
 
 onde $K$ é a projeção Poincaré $\to$ Klein.
 
@@ -228,7 +271,9 @@ onde $K$ é a projeção Poincaré $\to$ Klein.
 
 O ponto médio geodésico no modelo de Klein **não** é a média euclidiana. A média euclidiana $\frac{u+v}{2}$ permanece dentro do disco (pela convexidade), mas não corresponde ao ponto médio geodésico. O verdadeiro midpoint geodésico requer os fatores de Lorentz:
 
-$$\text{mid}_K(u, v) = \frac{\gamma_u \, u + \gamma_v \, v}{\gamma_u + \gamma_v}, \qquad \gamma_x = \frac{1}{\sqrt{1 - \|x\|^2}}$$
+$$
+\text{mid}_K(u, v) = \frac{\gamma_u \, u + \gamma_v \, v}{\gamma_u + \gamma_v}, \qquad \gamma_x = \frac{1}{\sqrt{1 - \|x\|^2}}
+$$
 
 Quando ambos os pontos estão próximos da origem ($\|u\|, \|v\| \ll 1$), $\gamma_u \approx \gamma_v \approx 1$ e o midpoint aproxima-se da média euclidiana. Para pontos próximos da fronteira, a divergência é significativa. Compare com o ponto médio na bola de Poincaré, que requer adição de Möbius.
 
@@ -250,7 +295,9 @@ A esfera unitária $n$-dimensional $\mathbb{S}^n = \{x \in \mathbb{R}^{n+1} : \|
 
 O tensor métrico é induzido pela métrica euclidiana ambiente:
 
-$$ds^2_{\mathbb{S}} = \sum_{i=1}^{n} d\phi_i^2 \cdot \prod_{j=1}^{i-1} \sin^2\phi_j$$
+$$
+ds^2_{\mathbb{S}} = \sum_{i=1}^{n} d\phi_i^2 \cdot \prod_{j=1}^{i-1} \sin^2\phi_j
+$$
 
 em coordenadas hiperesféricas, ou simplesmente a restrição da métrica euclidiana de $\mathbb{R}^{n+1}$ à subvariedade $\|x\| = 1$.
 
@@ -260,11 +307,15 @@ em coordenadas hiperesféricas, ou simplesmente a restrição da métrica euclid
 
 A distância geodésica (comprimento do grande círculo) entre $u, v \in \mathbb{S}^n$ é:
 
-$$d_{\mathbb{S}}(u, v) = \arccos(\langle u, v \rangle)$$
+$$
+d_{\mathbb{S}}(u, v) = \arccos(\langle u, v \rangle)
+$$
 
 onde $\langle u, v \rangle$ é o produto interno em $\mathbb{R}^{n+1}$. Para estabilidade numérica, a implementação usa:
 
-$$d_{\mathbb{S}}(u, v) = 2\arcsin\!\left(\frac{\|u - v\|}{2}\right)$$
+$$
+d_{\mathbb{S}}(u, v) = 2\arcsin\!\left(\frac{\|u - v\|}{2}\right)
+$$
 
 que é numericamente superior quando $u \approx v$ (evita cancelamento catastrófico em $\arccos$ de valores próximos a 1).
 
@@ -274,30 +325,35 @@ que é numericamente superior quando $u \approx v$ (evita cancelamento catastró
 
 A projeção de um ponto $x \in \mathbb{B}^n$ (bola de Poincaré $n$-dimensional) para $\mathbb{S}^n$ (esfera $n$-dimensional imersa em $\mathbb{R}^{n+1}$) é dada pela *projeção estereográfica inversa*:
 
-$$\sigma^{-1}(x) = \left(\frac{2x}{1 + \|x\|^2}, \; \frac{\|x\|^2 - 1}{1 + \|x\|^2}\right) \in \mathbb{S}^n \subset \mathbb{R}^{n+1}$$
+$$
+\sigma^{-1}(x) = \left(\frac{2x}{1 + \|x\|^2}, \; \frac{\|x\|^2 - 1}{1 + \|x\|^2}\right) \in \mathbb{S}^n \subset \mathbb{R}^{n+1}
+$$
 
 com inversa (projeção estereográfica do polo sul):
 
-$$\sigma(p_1, \ldots, p_{n+1}) = \frac{(p_1, \ldots, p_n)}{1 + p_{n+1}}$$
+$$
+\sigma(p_1, \ldots, p_{n+1}) = \frac{(p_1, \ldots, p_n)}{1 + p_{n+1}}
+$$
 
 **Propriedades da projeção estereográfica**:
+
 - *Conforme*: preserva ângulos (mas não áreas)
 - A origem $0 \in \mathbb{B}^n$ mapeia para o polo sul $(0, \ldots, 0, -1) \in \mathbb{S}^n$
 - O bordo $\partial\mathbb{B}^n$ mapeia para o equador de $\mathbb{S}^n$
 
 ```
          Esfera de Riemann S²
-              ╭────╮
+                ╭────╮
             ╱  N(polo) ╲
            │    ╲ │ ╱    │    N = polo norte (ponto no infinito)
            │     ─┼─     │
            │    ╱ │ ╲    │    Equador = bordo do disco
             ╲   S(polo) ╱     S = polo sul (origem)
-              ╰────╯
+                ╰────╯
               ↕ σ⁻¹
          ┌──────────┐
-         │  Poincaré │     Projeção estereográfica
-         │    · 0    │     preserva ângulos
+         │ Poincaré │     Projeção estereográfica
+         │   · 0    │     preserva ângulos
          └──────────┘
 ```
 
@@ -307,7 +363,9 @@ $$\sigma(p_1, \ldots, p_{n+1}) = \frac{(p_1, \ldots, p_n)}{1 + p_{n+1}}$$
 
 A *média de Fréchet* generaliza o conceito de média aritmética para variedades riemannianas. Na esfera $\mathbb{S}^n$, dado um conjunto de pontos $\{x_1, \ldots, x_m\} \subset \mathbb{S}^n$ com pesos $\{w_1, \ldots, w_m\}$, a média de Fréchet é:
 
-$$\bar{x} = \underset{y \in \mathbb{S}^n}{\arg\min} \sum_{i=1}^{m} w_i \, d_{\mathbb{S}}(y, x_i)^2$$
+$$
+\bar{x} = \underset{y \in \mathbb{S}^n}{\arg\min} \sum_{i=1}^{m} w_i \, d_{\mathbb{S}}(y, x_i)^2
+$$
 
 Este é um problema de otimização não convexo na esfera (pode ter mínimos locais). O NietzscheDB resolve via o *algoritmo de gradiente riemanniano* iterativo:
 
@@ -321,9 +379,13 @@ Este é um problema de otimização não convexo na esfera (pode ter mínimos lo
 
 Onde $\log_p$ e $\exp_p$ são os mapas logarítmico e exponencial na esfera:
 
-$$\exp_p^{\mathbb{S}}(v) = \cos(\|v\|)\,p + \sin(\|v\|)\frac{v}{\|v\|}$$
+$$
+\exp_p^{\mathbb{S}}(v) = \cos(\|v\|)\,p + \sin(\|v\|)\frac{v}{\|v\|}
+$$
 
-$$\log_p^{\mathbb{S}}(q) = \frac{d_{\mathbb{S}}(p,q)}{\sin(d_{\mathbb{S}}(p,q))}(q - \cos(d_{\mathbb{S}}(p,q))\,p)$$
+$$
+\log_p^{\mathbb{S}}(q) = \frac{d_{\mathbb{S}}(p,q)}{\sin(d_{\mathbb{S}}(p,q))}(q - \cos(d_{\mathbb{S}}(p,q))\,p)
+$$
 
 ### 4.3.5 Síntese Dialética Hegeliana (Georg Wilhelm Friedrich Hegel, alemão, 1770–1831, filósofo criador da dialética tese-antítese-síntese)
 
@@ -331,7 +393,9 @@ A geometria esférica mapeia naturalmente o processo dialético:
 
 Dado um par tese-antítese $(T, A) \in \mathbb{S}^n \times \mathbb{S}^n$, a *síntese* $S$ é definida como a média de Fréchet ponderada:
 
-$$S = \text{Fréchet}\!\left(\{T, A\}, \{w_T, w_A\}\right)$$
+$$
+S = \text{Fréchet}\!\left(\{T, A\}, \{w_T, w_A\}\right)
+$$
 
 onde os pesos $w_T, w_A$ são determinados pela *energia* dos nós no NietzscheDB (nós mais energéticos contribuem mais para a síntese).
 
@@ -353,11 +417,15 @@ onde os pesos $w_T, w_A$ são determinados pela *energia* dos nós no NietzscheD
 
 O espaço-tempo de Minkowski $\mathbb{M}^{n,1}$ é $\mathbb{R}^{n+1}$ equipado com a *métrica de Lorentz* — uma forma bilinear simétrica de assinatura $(n, 1)$:
 
-$$\eta_{\mu\nu} = \text{diag}(-1, +1, +1, \ldots, +1)$$
+$$
+\eta_{\mu\nu} = \text{diag}(-1, +1, +1, \ldots, +1)
+$$
 
 O intervalo espaço-temporal entre dois eventos $(t_1, \mathbf{x}_1)$ e $(t_2, \mathbf{x}_2)$ é:
 
-$$ds^2 = -c^2(\Delta t)^2 + \|\Delta \mathbf{x}\|^2$$
+$$
+ds^2 = -c^2(\Delta t)^2 + \|\Delta \mathbf{x}\|^2
+$$
 
 onde $c$ é uma constante de escala (no NietzscheDB, $c$ normaliza a relação entre tempo e distância semântica), $\Delta t = t_2 - t_1$ e $\Delta\mathbf{x} = \mathbf{x}_2 - \mathbf{x}_1$.
 
@@ -367,11 +435,15 @@ onde $c$ é uma constante de escala (no NietzscheDB, $c$ normaliza a relação e
 
 O sinal de $ds^2$ classifica a relação causal entre dois eventos:
 
-$$ds^2 = -c^2(\Delta t)^2 + \|\Delta\mathbf{x}\|^2 \begin{cases} < 0 & \text{tipo-tempo (timelike): causalidade possível} \\ = 0 & \text{tipo-luz (lightlike): limiar causal} \\ > 0 & \text{tipo-espaço (spacelike): sem relação causal} \end{cases}$$
+$$
+ds^2 = -c^2(\Delta t)^2 + \|\Delta\mathbf{x}\|^2 \begin{cases} < 0 & \text{tipo-tempo (timelike): causalidade possível} \\ = 0 & \text{tipo-luz (lightlike): limiar causal} \\ > 0 & \text{tipo-espaço (spacelike): sem relação causal} \end{cases}
+$$
 
 O *cone de luz futuro* de um evento $p = (t_p, \mathbf{x}_p)$ é:
 
-$$J^+(p) = \{(t, \mathbf{x}) : t > t_p \text{ e } -c^2(t - t_p)^2 + \|\mathbf{x} - \mathbf{x}_p\|^2 \leq 0\}$$
+$$
+J^+(p) = \{(t, \mathbf{x}) : t > t_p \text{ e } -c^2(t - t_p)^2 + \|\mathbf{x} - \mathbf{x}_p\|^2 \leq 0\}
+$$
 
 Somente eventos em $J^+(p)$ podem ser *efeitos* de $p$. Todo evento fora do cone de luz é causalmente desconectado.
 
@@ -395,18 +467,23 @@ Somente eventos em $J^+(p)$ podem ser *efeitos* de $p$. Todo evento fora do cone
 ### 4.4.3 Integração com Poincaré: A 4ª Dimensão Temporal
 
 No NietzscheDB, cada nó possui:
+
 - **Coordenadas espaciais**: embedding $\mathbf{x} \in \mathbb{B}^n$ (bola de Poincaré)
 - **Coordenada temporal**: `created_at` (timestamp de criação)
 
 A integração com Minkowski é feita associando a cada nó um *evento* quadridimensional:
 
-$$\text{evento}(v) = \left(t_v, \; \mathbf{x}_v\right) \in \mathbb{M}^{n,1}$$
+$$
+\text{evento}(v) = \left(t_v, \; \mathbf{x}_v\right) \in \mathbb{M}^{n,1}
+$$
 
 onde $t_v = \texttt{created\_at}(v)$ normalizado e $\mathbf{x}_v$ é o embedding de Poincaré.
 
 A *constante de escala causal* $c$ é calibrada empiricamente:
 
-$$c = \frac{\text{mediana}(d_{\mathbb{B}})}{\text{mediana}(\Delta t)}$$
+$$
+c = \frac{\text{mediana}(d_{\mathbb{B}})}{\text{mediana}(\Delta t)}
+$$
 
 de modo que distâncias geodésicas e intervalos temporais contribuam igualmente para a classificação causal.
 
@@ -414,19 +491,24 @@ de modo que distâncias geodésicas e intervalos temporais contribuam igualmente
 
 Dado um grafo de conhecimento com arestas $A \to B$ (onde $A$ é fundamento de $B$), a *consistência causal* exige:
 
-$$\forall (A \to B) : B \in J^+(A)$$
+$$
+\forall (A \to B) : B \in J^+(A)
+$$
 
 isto é, o efeito ($B$) deve estar no cone de luz futuro da causa ($A$). Se $B \notin J^+(A)$, temos uma *violação causal* — um conceito refinado que precede temporalmente seu fundamento, ou que é semanticamente distante demais para ter conexão causal dado o intervalo temporal.
 
 O *invariante de Lorentz* para a aresta é:
 
-$$\mathcal{I}(A, B) = -c^2(t_B - t_A)^2 + d_{\mathbb{B}}(\mathbf{x}_A, \mathbf{x}_B)^2$$
+$$
+\mathcal{I}(A, B) = -c^2(t_B - t_A)^2 + d_{\mathbb{B}}(\mathbf{x}_A, \mathbf{x}_B)^2
+$$
 
-| $\mathcal{I}$ | Classificação | Interpretação Cognitiva |
-|---|---|---|
-| $< 0$ | Timelike | Derivação legítima: tempo suficiente para evolução semântica |
-| $= 0$ | Lightlike | Limiar: mudança semântica exatamente proporcional ao tempo |
-| $> 0$ | Spacelike | Suspeito: salto semântico grande demais para o tempo decorrido |
+
+| $\mathcal{I}$ | Classificação | Interpretação Cognitiva                                          |
+| ------------- | --------------- | ------------------------------------------------------------------ |
+| $< 0$         | Timelike        | Derivação legítima: tempo suficiente para evolução semântica |
+| $= 0$         | Lightlike       | Limiar: mudança semântica exatamente proporcional ao tempo       |
+| $> 0$         | Spacelike       | Suspeito: salto semântico grande demais para o tempo decorrido    |
 
 ### 4.4.5 Uso no NietzscheDB
 
@@ -451,7 +533,7 @@ Todas as quatro geometrias são conectadas por mapas diferenciáveis, com a bola
                                 │ (estereográfica)
                                 │ estabilidade: MÉDIA
     ┌──────────────┐    ┌───────┴───────┐    ┌───────────────────┐
-    │  Klein K^n   │◄──│  Poincaré B^n │──►│ Minkowski M^{n,1} │
+    │  Klein K^n   │ ◄──│  Poincaré B^n │──► │ Minkowski M^{n,1} │
     │   (K < 0)    │ K/P│    (K < 0)    │ t  │     (K = 0)       │
     └──────────────┘    └───────────────┘    └───────────────────┘
      estabilidade:       ARMAZENAMENTO        estabilidade:
@@ -464,25 +546,35 @@ Todas as quatro geometrias são conectadas por mapas diferenciáveis, com a bola
 
 Cada transição introduz erro de arredondamento. Definimos o *erro de roundtrip* como:
 
-$$\epsilon_{\text{rt}} = \|x - P(K(x))\| \quad \text{(Poincaré} \to \text{Klein} \to \text{Poincaré)}$$
+$$
+\epsilon_{\text{rt}} = \|x - P(K(x))\| \quad \text{(Poincaré} \to \text{Klein} \to \text{Poincaré)}
+$$
 
 **Proposição 4.1** (Estabilidade do roundtrip Poincaré-Klein): Para $x \in \mathbb{B}^n$ com $\|x\| < 1 - \delta$, o erro de roundtrip satisfaz:
 
-$$\epsilon_{\text{rt}}^{PK} \leq \frac{4\,\epsilon_{\text{mach}}}{(1 - \|x\|^2)\sqrt{1 - \|K(x)\|^2}}$$
+$$
+\epsilon_{\text{rt}}^{PK} \leq \frac{4\,\epsilon_{\text{mach}}}{(1 - \|x\|^2)\sqrt{1 - \|K(x)\|^2}}
+$$
 
 onde $\epsilon_{\text{mach}} \approx 2.2 \times 10^{-16}$ para `f64`.
 
 Para a projeção estereográfica (Poincaré $\leftrightarrow$ Riemann):
 
-$$\epsilon_{\text{rt}}^{PS} \leq \frac{2\,\epsilon_{\text{mach}}}{(1 + \|x\|^2)^2}$$
+$$
+\epsilon_{\text{rt}}^{PS} \leq \frac{2\,\epsilon_{\text{mach}}}{(1 + \|x\|^2)^2}
+$$
 
 **Teorema 4.2** (Erro cascateado): Após $N$ projeções cascateadas entre quaisquer combinações das quatro geometrias, o erro total satisfaz:
 
-$$\epsilon_{\text{cascade}}(N) \leq N \cdot \max\left(\epsilon_{\text{rt}}^{PK}, \epsilon_{\text{rt}}^{PS}\right) \cdot \left(1 + O(\epsilon_{\text{mach}})\right)$$
+$$
+\epsilon_{\text{cascade}}(N) \leq N \cdot \max\left(\epsilon_{\text{rt}}^{PK}, \epsilon_{\text{rt}}^{PS}\right) \cdot \left(1 + O(\epsilon_{\text{mach}})\right)
+$$
 
 Para $N = 10$ e $\|x\| \leq 0.95$ (região operacional típica):
 
-$$\epsilon_{\text{cascade}}(10) < 10^{-4}$$
+$$
+\epsilon_{\text{cascade}}(10) < 10^{-4}
+$$
 
 Este é o limiar verificado experimentalmente no `nietzsche-hyp-ops` e garantido por testes de integração.
 
@@ -490,20 +582,21 @@ Este é o limiar verificado experimentalmente no `nietzsche-hyp-ops` e garantido
 
 Toda a aritmética hiperbólica é isolada no crate `nietzsche-hyp-ops`, que expõe:
 
-| Função | Descrição | Complexidade |
-|---|---|---|
-| `poincare_distance(u, v)` | $d_{\mathbb{B}}(u, v)$ | $O(n)$ |
-| `mobius_add(x, y, c)` | $x \oplus_c y$ | $O(n)$ |
-| `exp_map(p, v, c)` | $\exp_p^c(v)$ | $O(n)$ |
-| `log_map(p, q, c)` | $\log_p^c(q)$ | $O(n)$ |
-| `parallel_transport(p, q, v, c)` | $\Gamma_{p\to q}^c(v)$ | $O(n^2)$ |
-| `to_klein(x)` | $K(x)$ | $O(n)$ |
-| `from_klein(y)` | $P(y)$ | $O(n)$ |
-| `to_sphere(x)` | $\sigma^{-1}(x)$ | $O(n)$ |
-| `from_sphere(p)` | $\sigma(p)$ | $O(n)$ |
-| `frechet_mean_sphere(pts, w)` | Média de Fréchet | $O(nkI)$* |
-| `lorentz_interval(a, b, c_scale)` | $\mathcal{I}(A,B)$ | $O(n)$ |
-| `is_timelike(a, b, c_scale)` | $\mathcal{I} < 0$? | $O(n)$ |
+
+| Função                          | Descrição            | Complexidade |
+| --------------------------------- | ---------------------- | ------------ |
+| `poincare_distance(u, v)`         | $d_{\mathbb{B}}(u, v)$ | $O(n)$       |
+| `mobius_add(x, y, c)`             | $x \oplus_c y$         | $O(n)$       |
+| `exp_map(p, v, c)`                | $\exp_p^c(v)$          | $O(n)$       |
+| `log_map(p, q, c)`                | $\log_p^c(q)$          | $O(n)$       |
+| `parallel_transport(p, q, v, c)`  | $\Gamma_{p\to q}^c(v)$ | $O(n^2)$     |
+| `to_klein(x)`                     | $K(x)$                 | $O(n)$       |
+| `from_klein(y)`                   | $P(y)$                 | $O(n)$       |
+| `to_sphere(x)`                    | $\sigma^{-1}(x)$       | $O(n)$       |
+| `from_sphere(p)`                  | $\sigma(p)$            | $O(n)$       |
+| `frechet_mean_sphere(pts, w)`     | Média de Fréchet     | $O(nkI)$*    |
+| `lorentz_interval(a, b, c_scale)` | $\mathcal{I}(A,B)$     | $O(n)$       |
+| `is_timelike(a, b, c_scale)`      | $\mathcal{I} < 0$?     | $O(n)$       |
 
 \*$k$ = número de pontos, $I$ = iterações até convergência.
 
@@ -521,19 +614,25 @@ O módulo `quantum.rs` implementa uma ponte entre a geometria hiperbólica e a r
 
 Um qubit puro é representado por um ponto na esfera de Bloch $\mathbb{S}^2 \subset \mathbb{R}^3$, parametrizado por ângulos $(\theta, \phi)$:
 
-$$|\psi\rangle = \cos\frac{\theta}{2}|0\rangle + e^{i\phi}\sin\frac{\theta}{2}|1\rangle$$
+$$
+|\psi\rangle = \cos\frac{\theta}{2}|0\rangle + e^{i\phi}\sin\frac{\theta}{2}|1\rangle
+$$
 
 O mapa de Poincaré para Bloch é definido por:
 
 **Passo 1** — Coordenada radial para ângulo polar:
 
-$$\theta = 2\arctan(r), \quad r = \|x\|_{\mathbb{B}}$$
+$$
+\theta = 2\arctan(r), \quad r = \|x\|_{\mathbb{B}}
+$$
 
 onde $r \in [0, 1)$ mapeia para $\theta \in [0, \pi/2)$. Pontos na origem ($r = 0$) correspondem ao polo norte ($\theta = 0$, estado $|0\rangle$); pontos na periferia ($r \to 1$) ao equador ($\theta \to \pi/2$, superposição máxima).
 
 **Passo 2** — Direção angular para fase:
 
-$$\phi = \text{atan2}(x_2, x_1)$$
+$$
+\phi = \text{atan2}(x_2, x_1)
+$$
 
 (usando as duas primeiras componentes do embedding para determinar a fase no plano equatorial).
 
@@ -543,13 +642,17 @@ $$\phi = \text{atan2}(x_2, x_1)$$
 
 O *arousal* $\alpha \in [0, 1]$ de um nó (medida de ativação emocional) mapeia para a *pureza* do estado quântico:
 
-$$\rho = \alpha |\psi\rangle\langle\psi| + (1 - \alpha)\frac{I}{2}$$
+$$
+\rho = \alpha |\psi\rangle\langle\psi| + (1 - \alpha)\frac{I}{2}
+$$
 
 onde $\rho$ é a *matriz de densidade*. Quando $\alpha = 1$, o estado é puro (coerência máxima); quando $\alpha = 0$, é o estado maximamente misto $I/2$ (ruído total).
 
 O *comprimento do vetor de Bloch* resultante é:
 
-$$\|\mathbf{r}_{\text{Bloch}}\| = \alpha$$
+$$
+\|\mathbf{r}_{\text{Bloch}}\| = \alpha
+$$
 
 Isto fornece uma interpretação geométrica elegante: o arousal é literalmente o quão longe da origem da esfera de Bloch o estado se encontra.
 
@@ -559,11 +662,15 @@ Isto fornece uma interpretação geométrica elegante: o arousal é literalmente
 
 Dois nós $A$ e $B$ com estados $\rho_A$ e $\rho_B$ têm *emaranhamento semântico* quantificado pela *fidelidade*:
 
-$$F(\rho_A, \rho_B) = \left(\text{tr}\sqrt{\sqrt{\rho_A}\,\rho_B\,\sqrt{\rho_A}}\right)^2$$
+$$
+F(\rho_A, \rho_B) = \left(\text{tr}\sqrt{\sqrt{\rho_A}\,\rho_B\,\sqrt{\rho_A}}\right)^2
+$$
 
 Para estados puros, isso simplifica para:
 
-$$F(|\psi_A\rangle, |\psi_B\rangle) = |\langle\psi_A|\psi_B\rangle|^2 = \cos^2\!\left(\frac{\theta_{AB}}{2}\right)$$
+$$
+F(|\psi_A\rangle, |\psi_B\rangle) = |\langle\psi_A|\psi_B\rangle|^2 = \cos^2\!\left(\frac{\theta_{AB}}{2}\right)
+$$
 
 onde $\theta_{AB}$ é o ângulo entre os vetores de Bloch. Fidelidade alta ($F \to 1$) indica sobreposição semântica; fidelidade baixa ($F \to 0$) indica conceitos ortogonais.
 
@@ -574,12 +681,12 @@ O NietzscheDB usa a fidelidade como critério para *Hebbian linking*: arestas he
 ```
     Bola de Poincaré B²              Esfera de Bloch S²
     ┌──────────────────┐             ┌──────────────┐
-    │    ·              │             │    |0⟩       │
-    │   (r, φ)         │   θ=2arctan(r)  │   ╱│╲       │
-    │                  │  ──────────►│  ╱ │ ╲      │
-    │       ·──        │             │ ╱  ·  ╲     │
-    │      (borda→     │             │╱ (θ,φ) ╲    │
-    │       equador)   │             │    │       │
+    │    ·             │             │    |0⟩        │
+    │   (r, φ)         │   θ=2arctan(r)  │   ╱│╲    │
+    │                  │  ──────────►│  ╱ │ ╲       │
+    │       ·──        │             │ ╱  ·  ╲      │
+    │      (borda→     │             │╱ (θ,φ) ╲     │
+    │       equador)   │             │    │         │
     │                  │             │    |1⟩       │
     └──────────────────┘             └──────────────┘
 
@@ -596,6 +703,7 @@ Considere o seguinte cenário cognitivo no NietzscheDB: um agente processa a afi
 
 **Passo 1 — Poincaré (Hierarquia)**:
 Os conceitos são inseridos com profundidade hierárquica codificada pela magnitude:
+
 - "Democracia" ($\|x\| \approx 0.2$) — conceito abstrato, perto da raiz
 - "Liberdade de expressão" ($\|x\| \approx 0.5$) — subcategoria
 - "Discurso de ódio" ($\|x\| \approx 0.7$) — fenômeno específico
@@ -603,12 +711,20 @@ Os conceitos são inseridos com profundidade hierárquica codificada pela magnit
 
 **Passo 2 — Klein (Raciocínio)**:
 Projetamos para Klein e verificamos colinearidade da cadeia dedutiva:
-$$K(\text{democracia}), K(\text{lib. expressão}), K(\text{regulação})$$
+
+$$
+K(\text{democracia}), K(\text{lib. expressão}), K(\text{regulação})
+$$
+
 Se colineares, a cadeia lógica é geometricamente consistente.
 
 **Passo 3 — Riemann (Síntese)**:
 "Liberdade de expressão" e "regulação" são parcialmente antagônicas. Projetamos para $\mathbb{S}^n$ e computamos a média de Fréchet:
-$$\text{Síntese} = \text{Fréchet}\!\left(\sigma^{-1}(\text{lib}),\; \sigma^{-1}(\text{reg})\right)$$
+
+$$
+\text{Síntese} = \text{Fréchet}\!\left(\sigma^{-1}(\text{lib}),\; \sigma^{-1}(\text{reg})\right)
+$$
+
 O resultado é um conceito novo: "liberdade regulada" — a síntese dialética.
 
 **Passo 4 — Minkowski (Causalidade)**:
@@ -622,11 +738,15 @@ Para completude, enunciamos as propriedades que garantem a coerência do sistema
 
 **Proposição 4.3** (Isometria Poincaré-Klein): Os mapas $K$ e $P$ preservam distâncias geodésicas:
 
-$$d_{\mathbb{B}}(u, v) = d_K(K(u), K(v))$$
+$$
+d_{\mathbb{B}}(u, v) = d_K(K(u), K(v))
+$$
 
 **Proposição 4.4** (Conformalidade da projeção estereográfica): A projeção $\sigma^{-1}: \mathbb{B}^n \to \mathbb{S}^n$ preserva ângulos:
 
-$$\angle_{\mathbb{B}}(u, v; p) = \angle_{\mathbb{S}}(\sigma^{-1}(u), \sigma^{-1}(v); \sigma^{-1}(p))$$
+$$
+\angle_{\mathbb{B}}(u, v; p) = \angle_{\mathbb{S}}(\sigma^{-1}(u), \sigma^{-1}(v); \sigma^{-1}(p))
+$$
 
 para quaisquer $u, v, p$ onde os ângulos são definidos.
 
