@@ -12,8 +12,10 @@
 | **Cargo Efetivo** | TECNICO DO SEGURO SOCIAL (Classe S, Padrão V) |
 | **Função / Atividade** | GERENTE DE AGENCIA |
 | **Lotação Mais Recente** | APS B EIRUNEPE |
-| **Data de Exercício / Posse** | **30/04/2010** |
-| **Total de Competências Públicas Apuradas** | **162 meses** (01/2013 a 07/2026) |
+| **Data de Exercício / Posse** | **30/04/2010** (Portaria PRES/INSS nº 327) |
+| **Período Total do Vínculo** | **196 competências** (Abril/2010 a Julho/2026) |
+| **Competências Públicas CGU** | **162 meses** (01/2013 a 07/2026) |
+| **Competências a Exibir pelo INSS** | **34 meses** (33 em 2010-2012 + 1 em 12/2024) |
 
 ---
 
@@ -21,26 +23,62 @@
 
 > [!IMPORTANT]
 > **Comprovação Documental de Posse:** O próprio Portal da Transparência atesta que Anderson Vieira de Lima ingressou no cargo em **30/04/2010**.
-> Como a Controladoria-Geral da União (CGU) só iniciou o arquivamento e a divulgação de microdados abertos de servidores públicos a partir de **Janeiro de 2013** (vigência da Lei de Acesso à Informação nº 12.527/2011), há **33 competências funcionais (Maio/2010 a Dezembro/2012 + 13º salários)** que **só a Administração Pública (INSS) detém em seus arquivos fechados**.
+> Como a Controladoria-Geral da União (CGU) só iniciou o arquivamento e a divulgação de microdados abertos de servidores públicos a partir de **Janeiro de 2013** (vigência da Lei de Acesso à Informação nº 12.527/2011), há **33 competências funcionais (Abril/2010 a Dezembro/2012 + 13º salários)** que **só a Administração Pública (INSS) detém em seus arquivos fechados**.
 > Fica juridicamente comprovado que o autor colacionou 100% da transparência pública existente, cabendo ao INSS a exibição compulsória das fichas financeiras inaugurais sob pena de arbitramento legal.
 
 ---
 
-## 3. Síntese Financeira das 162 Competências Públicas Apuradas (2013 a 2026)
+## 3. Síntese Financeira do Período Completo (2010 a 2026 — 196 Competências)
 
-- **Remuneração Bruta Acumulada:** R$ 1.454.227,29
-- **Previdência Oficial (PSS Acumulado):** R$ -151.391,80
-- **Imposto de Renda Retido na Fonte (IRRF Acumulado):** R$ -250.997,01
-- **Remuneração Líquida Oficial Acumulada:** R$ 1.382.585,37
-- **Total de Verbas Indenizatórias:** R$ 117.332,08
-- **Total Líquido Efetivo Recebido:** **R$ 1.499.917,45**
+- **Período Total do Vínculo Funcional:** 04/2010 a 07/2026 (196 competências)
+- **Competências com Dados Públicos CGU:** 162 meses
+- **Competências a Exibir pelo INSS (Vácuo LAI):** 34 meses
+- **Remuneração Bruta Acumulada (CGU):** R$ 1.454.227,29
+- **Previdência Oficial (PSS Acumulado CGU):** R$ -151.391,80
+- **Imposto de Renda Retido na Fonte (IRRF CGU):** R$ -250.997,01
+- **Remuneração Líquida Oficial Acumulada (CGU):** R$ 1.382.585,37
+- **Total de Verbas Indenizatórias Acumuladas:** R$ 117.332,08
+- **Total Líquido Efetivo Recebido (CGU):** **R$ 1.499.917,45**
 
 ---
 
-## 4. Tabela Mensal Exaustiva (Janeiro/2013 a Julho/2026)
+## 4. Tabela Mensal Exaustiva de Todas as Competências (Abril/2010 a Julho/2026)
 
-| Período | Bruto (R$) | Eventuais / Férias (R$) | Previdência / PSS (R$) | IRRF (R$) | Demais Ded. (R$) | Líquido Oficial (R$) | Indenizações (R$) | Total Efetivo (R$) |
+| Período | Bruto (R$) | Eventuais / Férias (R$) | Previdência / PSS (R$) | IRRF (R$) | Demais Ded. (R$) | Líquido Oficial (R$) | Indenizações (R$) | Total Efetivo / Situação Probatória |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **04/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Posse em 30/04/2010]** |
+| **05/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **06/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **07/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **08/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **09/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **10/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **11/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **12/2010** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **01/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **02/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **03/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **04/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **05/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **06/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **07/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **08/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **09/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **10/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **11/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **12/2011** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **01/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **02/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **03/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **04/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **05/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **06/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **07/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **08/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **09/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **10/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **11/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Vácuo LAI CGU]** |
+| **12/2012** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Chefia FCI-0001 em 13/12]** |
 | **01/2013** | R$ 5885,74 | R$ 843,81 | R$ -536,04 | R$ -680,58 | R$ -20,80 | **R$ 5492,13** | R$ 504,49 | **R$ 5.996,62** |
 | **02/2013** | R$ 5827,77 | R$ 0,00 | R$ -381,11 | R$ -412,55 | R$ -1071,61 | **R$ 3962,50** | R$ 435,49 | **R$ 4.397,99** |
 | **03/2013** | R$ 5885,74 | R$ 57,97 | R$ -498,99 | R$ -706,71 | R$ 0,00 | **R$ 4738,01** | R$ 435,49 | **R$ 5.173,50** |
@@ -184,6 +222,7 @@
 | **09/2024** | R$ 11319,40 | R$ 3.488,40 | R$ -1165,00 | R$ -2554,70 | R$ -11,58 | **R$ 11076,52** | R$ 1125,99 | **R$ 12.202,51** |
 | **10/2024** | R$ 11319,40 | R$ 170,00 | R$ -1165,00 | R$ -1604,50 | R$ 0,00 | **R$ 8719,90** | R$ 1125,99 | **R$ 9.845,89** |
 | **11/2024** | R$ 11319,40 | R$ 214,20 | R$ -2330,00 | R$ -3172,97 | R$ -5519,42 | **R$ 11830,61** | R$ 1125,99 | **R$ 12.956,60** |
+| **12/2024** | — | — | — | — | — | — | — | **[A EXIBIR PELO INSS — Omissão Folha Civil CGU]** |
 | **01/2025** | R$ 11319,40 | R$ 12.062,33 | R$ -1153,92 | R$ -3538,44 | R$ -100,56 | **R$ 24248,51** | R$ 1125,99 | **R$ 25.374,50** |
 | **02/2025** | R$ 11319,40 | R$ 0,00 | R$ -1153,92 | R$ -1558,53 | R$ -25,14 | **R$ 8581,81** | R$ 1125,99 | **R$ 9.707,80** |
 | **03/2025** | R$ 11319,40 | R$ 0,00 | R$ -1153,92 | R$ -1558,53 | R$ 0,00 | **R$ 8606,95** | R$ 1126,00 | **R$ 9.732,95** |
@@ -208,6 +247,6 @@
 
 ## 5. Notas Oficiais de Instrução
 
-1. **Marco Regulatório da Transparência:** Base oficial aberta iniciada em janeiro de 2013 por força da LAI.
+1. **Marco Regulatório da Transparência:** Base oficial aberta iniciada em janeiro de 2013 por força da LAI. Competências 2010 a 2012 recaem no ônus do INSS (CPC, art. 524, § 3º).
 2. **Competência 12/2024:** Omissão material da folha civil pelo órgão central da CGU; vínculo certificado pelo cadastro do mês.
 3. **Sigilo de Rubricas Privadas:** Deduções de empréstimos consignados, mensalidades associativas e planos de saúde privados são protegidas por sigilo bancário/LGPD e não são publicizadas no Portal da Transparência.
